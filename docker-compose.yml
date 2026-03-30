@@ -1,0 +1,16 @@
+services:
+  portal:
+    build: .
+    image: irms-fe-portal
+    container_name: irms-fe-portal
+    ports:
+      - "3003:3003"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - irms_net
+
+networks:
+  irms_net:
+    external: true
