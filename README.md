@@ -30,9 +30,6 @@
 ```bash
 # submodule 초기화
 git submodule update --init --recursive
-
-# 환경 변수 설정
-cp .env.example .env
 ```
 
 ## 실행
