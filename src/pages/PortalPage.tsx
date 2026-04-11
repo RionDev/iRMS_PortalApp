@@ -54,7 +54,7 @@ const cardStyle: CSSProperties = {
 
 export function PortalPage() {
   return (
-    <Layout title="Portal">
+    <Layout title="Portal" version={__APP_VERSION__}>
       <div
         style={{
           display: 'flex',
