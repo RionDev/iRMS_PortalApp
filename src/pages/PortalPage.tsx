@@ -1,8 +1,18 @@
-import type { CSSProperties } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { Layout } from '@common/components/Layout';
+import { useAuthStore } from '@common/stores/authStore';
+import { Role } from '@common/types/constants';
 import { theme } from '@common/styles/theme';
 
-const apps = [
+interface PortalApp {
+  title: string;
+  description: string;
+  href: string;
+  requiredRole?: number;
+  icon: ReactNode;
+}
+
+const apps: PortalApp[] = [
   {
     title: '인증',
     description: '내 정보 · 비밀번호 변경',
@@ -22,6 +32,7 @@ const apps = [
     title: '관리자',
     description: '회원 조회 · 승인 · 관리',
     href: '/admin/',
+    requiredRole: Role.ADMIN,
     icon: (
       <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
         <rect width="48" height="48" rx="12" fill={theme.colors.primary} fillOpacity="0.1" />
@@ -33,7 +44,7 @@ const apps = [
       </svg>
     ),
   },
-] as const;
+];
 
 const cardStyle: CSSProperties = {
   display: 'flex',
@@ -53,6 +64,9 @@ const cardStyle: CSSProperties = {
 };
 
 export function PortalPage() {
+  const { user } = useAuthStore();
+  const visibleApps = apps.filter((app) => !app.requiredRole || user?.role === app.requiredRole);
+
   return (
     <Layout title="Portal" version={__APP_VERSION__}>
       <div
@@ -70,11 +84,11 @@ export function PortalPage() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: `repeat(${apps.length}, 1fr)`,
+            gridTemplateColumns: `repeat(${visibleApps.length}, 1fr)`,
             gap: '24px',
           }}
         >
-          {apps.map((app) => (
+          {visibleApps.map((app) => (
             <a key={app.href} href={app.href} style={cardStyle}>
               {app.icon}
               <span style={{ fontSize: '16px', fontWeight: 600 }}>{app.title}</span>
