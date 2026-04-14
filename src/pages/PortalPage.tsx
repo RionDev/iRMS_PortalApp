@@ -1,14 +1,12 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { Layout } from '@common/components/Layout';
-import { useAuthStore } from '@common/stores/authStore';
-import { Role } from '@common/types/constants';
+import { useAppsStore } from '@common/stores/appsStore';
 import { theme } from '@common/styles/theme';
 
 interface PortalApp {
   title: string;
   description: string;
   href: string;
-  requiredRole?: number;
   icon: ReactNode;
 }
 
@@ -32,7 +30,6 @@ const apps: PortalApp[] = [
     title: '관리자',
     description: '회원 조회 · 승인 · 관리',
     href: '/admin/',
-    requiredRole: Role.ADMIN,
     icon: (
       <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
         <rect width="48" height="48" rx="12" fill={theme.colors.primary} fillOpacity="0.1" />
@@ -64,8 +61,10 @@ const cardStyle: CSSProperties = {
 };
 
 export function PortalPage() {
-  const { user } = useAuthStore();
-  const visibleApps = apps.filter((app) => !app.requiredRole || user?.role === app.requiredRole);
+  const { apps: accessibleApps } = useAppsStore();
+  const visibleApps = apps.filter((app) =>
+    accessibleApps.some((a) => app.href.startsWith(a.path)),
+  );
 
   return (
     <Layout title="Portal" version={__APP_VERSION__}>
