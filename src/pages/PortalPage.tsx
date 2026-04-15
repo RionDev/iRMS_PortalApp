@@ -12,21 +12,6 @@ interface PortalApp {
 
 const apps: PortalApp[] = [
   {
-    title: '인증',
-    description: '내 정보 · 비밀번호 변경',
-    href: '/auth/',
-    icon: (
-      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-        <rect width="48" height="48" rx="12" fill={theme.colors.primary} fillOpacity="0.1" />
-        <path
-          d="M24 14a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm0 10c-4.42 0-8 1.79-8 4v2h16v-2c0-2.21-3.58-4-8-4Z"
-          fill={theme.colors.primary}
-        />
-        <rect x="14" y="32" width="20" height="2" rx="1" fill={theme.colors.primary} fillOpacity="0.3" />
-      </svg>
-    ),
-  },
-  {
     title: '관리자',
     description: '회원 조회 · 승인 · 관리',
     href: '/admin/',
