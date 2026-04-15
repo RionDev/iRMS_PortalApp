@@ -1,6 +1,7 @@
 import { AppLayout } from "@common/components/AppLayout";
 import { useAppsStore } from "@common/stores/appsStore";
 import { useThemeStore } from "@common/stores/themeStore";
+import { hasAppAccess } from "@common/utils/appPath";
 import type { CSSProperties, ReactNode } from "react";
 
 interface PortalApp {
@@ -39,13 +40,7 @@ const apps: PortalApp[] = [
 export function PortalPage() {
   const { theme } = useThemeStore();
   const { apps: accessibleApps } = useAppsStore();
-  const normalizePath = (p: string): string => {
-    const s = p.trim();
-    return s.length > 1 && s.endsWith("/") ? s.slice(0, -1) : s;
-  };
-  const visibleApps = apps.filter((app) =>
-    accessibleApps.some((a) => normalizePath(a.path) === normalizePath(app.href)),
-  );
+  const visibleApps = apps.filter((app) => hasAppAccess(accessibleApps, app.href));
 
   const cardStyle: CSSProperties = {
     display: "flex",
