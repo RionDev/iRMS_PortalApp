@@ -5,7 +5,7 @@ import pkg from './package.json';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  const apiBaseUrl = env.VITE_API_BASE_URL?.trim();
+  const proxyTarget = env.API_PROXY_TARGET?.trim();
 
   return {
     define: {
@@ -20,10 +20,10 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 3003,
       host: '0.0.0.0',
-      proxy: apiBaseUrl
+      proxy: proxyTarget
         ? {
             '/api': {
-              target: apiBaseUrl,
+              target: proxyTarget,
               changeOrigin: true,
             },
           }
