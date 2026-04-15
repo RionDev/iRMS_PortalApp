@@ -39,8 +39,12 @@ const apps: PortalApp[] = [
 export function PortalPage() {
   const { theme } = useThemeStore();
   const { apps: accessibleApps } = useAppsStore();
+  const normalizePath = (p: string): string => {
+    const s = p.trim();
+    return s.length > 1 && s.endsWith("/") ? s.slice(0, -1) : s;
+  };
   const visibleApps = apps.filter((app) =>
-    accessibleApps.some((a) => app.href.startsWith(a.path)),
+    accessibleApps.some((a) => normalizePath(a.path) === normalizePath(app.href)),
   );
 
   const cardStyle: CSSProperties = {
