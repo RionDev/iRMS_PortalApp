@@ -137,7 +137,9 @@ const apps: PortalApp[] = [
 export function PortalPage() {
   const { theme } = useThemeStore();
   const { apps: accessibleApps } = useAppsStore();
-  const visibleApps = apps.filter((app) => hasAppAccess(accessibleApps, app.href));
+  const visibleApps = apps.filter((app) =>
+    hasAppAccess(accessibleApps, app.href),
+  );
 
   const cardStyle: CSSProperties = {
     display: "flex",
@@ -165,19 +167,16 @@ export function PortalPage() {
           alignItems: "center",
           justifyContent: "center",
           minHeight: "calc(100vh - 200px)",
-          gap: "48px",
         }}
       >
-        <h1 style={{ margin: 0, fontSize: "28px", fontWeight: 700 }}>
-          iRMS 포털
-        </h1>
-
         <div
           style={{
             display: "grid",
             gridTemplateColumns: `repeat(${Math.min(visibleApps.length, 4)}, 180px)`,
             justifyContent: "center",
-            gap: "24px",
+            alignContent: "start",
+            columnGap: "100px",
+            rowGap: "40px",
           }}
         >
           {visibleApps.map((app) => (
