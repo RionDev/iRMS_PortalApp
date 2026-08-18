@@ -159,7 +159,7 @@ export function PortalPage() {
   };
 
   return (
-    <AppLayout appName="Portal" version={__APP_VERSION__}>
+    <AppLayout appName="Portal" hideSidebar version={__APP_VERSION__}>
       <div
         style={{
           display: "flex",
